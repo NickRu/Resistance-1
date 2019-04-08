@@ -1,8 +1,9 @@
 #include "MissionCommand.h"
 #include "Mission.h"
 #include "GameRound.h"
-#include "GameAgents.h"
 #include "Game.h"
+#include "GameAgents.h"
+#include "Agent.h"
 
 MissionCommand::MissionCommand(Mission* ms)
 {
@@ -10,7 +11,7 @@ MissionCommand::MissionCommand(Mission* ms)
 	vector<Agent*> vc = GetMission()->GetCurrentGameRound()->GetGame()->GetGameAgents()->GetAgents();
 	for (int i = 0; i < vc.size(); i++)
 	{
-		GetCommand().push_back(AgentInMission(this, *vc[i]));
+		_command.push_back(AgentInMission(this, *vc[i]));
 	}
 }
 

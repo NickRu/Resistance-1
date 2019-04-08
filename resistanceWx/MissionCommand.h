@@ -4,21 +4,21 @@
 
 using namespace std;
 
-class Mission;
+class Mission; //Forward Declare
 
 class MissionCommand
 {
 private:
-	vector<AgentInMission> _command;	//вектор агент в миссии
-	Mission* _mission;					//сама миссия
+	vector<AgentInMission> _command;
+	Mission* _mission;
 public:
 	MissionCommand(Mission* ms);
 	~MissionCommand();
 
-	Mission* GetMission();				//дать миссию
+	Mission* GetMission();
 
-	vector<AgentInMission> GetCommand();//дать команду миссии
+	vector<AgentInMission> GetCommand();
 
-	int NumberofSelected();				//количество выбранных игроков
+	int NumberofSelected();
 };
 

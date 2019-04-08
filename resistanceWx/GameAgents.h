@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
-#include "Agent.h"
 #include "Player.h"
+#include "Agent.h"
 
 using namespace std;
 
-class Game;
+class Game; //Forward Declare
 
 class GameAgents
 {
@@ -20,11 +20,12 @@ public:
 	vector<Agent*> GetAgents();
 	Game* GetGame();
 
-	bool RegistryAgent(Player& pl);
-	bool UnregistryAgent(Agent* ag);
+	bool RegistryAgent(Player* pl);
+	bool UnregistryAgent(Agent& ag);
 
 	void ExecuteStart();
 
 	string CreateRandomName();
+	//bool Comp(const Agent& lhs, const Agent& rhs);
 };
 

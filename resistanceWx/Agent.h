@@ -1,37 +1,40 @@
 #pragma once
 #include "AllEnum.h"
 #include "Player.h"
+#include "OrderAgent.h"
 
 using namespace std;
 
-class Agent		//игрок, закреплен за игрой
+class Agent : public OrderAgent	//игрок, закреплен за игрой
 {
 private:
-	Player _player;					//принадлежность к игроку
+	Player* _player;					//принадлежность к игроку
 	//string _codeName;				//кодовое имя (не под своим именем, возможно не нужно)
 	int _randomNumber;				//случайное число (нужно, чтобы перемешивать игроков)
-	AgentStatus _status;			//шпион или сопротивленец
+	SpyAgentStatus _status;			//шпион или сопротивленец
 	bool _isLider;					//другие полномочия
-	int _orderNumber;				//порядок в игре после перемешивания
+	//int _orderNumber;				//порядок в игре после перемешивания
 public:
 	Agent();
-	Agent(Player player, AgentStatus status);
+	Agent(Player* player);
 	~Agent();
 
-	Player GetPlayer();					//получить игрока
+	Player GetPlayer();		//получить игрока
 
-	int GetRandomNumber();				//получили рандомный номер
-	void SetRandomNumber(int randNumb);	//дали рандомный номер
+	int GetRandomNumber();
+	void SetRandomNumber(int randNumb);
 
-	int GetOrderNumber();				//получили порядковый номер
-	void SetOrderNumber(int ordNumb);	//дали порядковый номер
+	//int GetOrderNumber();
+	//void SetOrderNumber(int ordNumb);
 
-	AgentStatus GetStatus();			//получили статус
-	void SetStatus(AgentStatus status);	//дали статус
+	int GetNumberOfAgent();
 
-	bool GetIsLider();					//получили лидер ли
-	void SetIsLider(bool isLider);		//дали лидер 
+	SpyAgentStatus GetStatus();
+	void SetStatus(SpyAgentStatus status);
 
-	static bool Comp(Agent* lhs, Agent* rhs);	//для сортировки игроков
+	bool GetIsLider();
+	void SetIsLider(bool isLider);
+
+	static bool Comp(Agent* lhs, Agent* rhs);
 };
 

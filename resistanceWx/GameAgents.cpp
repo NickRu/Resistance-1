@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "GameAgents.h"
 #include "Game.h"
-#include "AllEnum.h"
+//#include "Agent.h"
 
 GameAgents::GameAgents()
 {
@@ -15,6 +15,13 @@ GameAgents::GameAgents(Game* game)
 
 GameAgents::~GameAgents()
 {
+	// Это пока не надо
+	int s = _agents.size();
+	for (size_t i = 0; i < s; i++)
+	{
+		Agent* ag = _agents[i];
+		delete(ag);
+	}
 }
 
 vector<Agent*> GameAgents::GetAgents()
@@ -27,14 +34,14 @@ Game* GameAgents::GetGame()
 	return _game;
 }
 
-bool GameAgents::RegistryAgent(Player& pl)
+bool GameAgents::RegistryAgent(Player* pl)
 {
-	Agent* ag = new Agent(pl, AgentStatus::Fighter);
+	Agent* ag = new Agent(pl);
 	_agents.push_back(ag);
-	return true;
+	return false;
 }
 
-bool GameAgents::UnregistryAgent(Agent* ag)
+bool GameAgents::UnregistryAgent(Agent& ag)
 {
 	return false;
 }
@@ -50,7 +57,7 @@ void GameAgents::ExecuteStart()
 	std::sort(_agents.begin(), _agents.end(), Agent::Comp);
 	for (int i = 0; i < GetGame()->GetSpyNumbers()[_agents.size()]; i++)
 	{
-		_agents[i]->SetStatus(AgentStatus::Spy);
+		_agents[i]->SetStatus(SpyAgentStatus::Spy);
 	}
 
 	for (int i = 0; i < _agents.size(); i++)

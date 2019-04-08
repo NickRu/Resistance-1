@@ -1,34 +1,42 @@
+#include "AllEnum.h"
 #include "GameRound.h"
+#include "Game.h"
 #include "GameAgents.h"
 #include "Agent.h"
-#include "Game.h"
 #include "Mission.h"
-#include "AllEnum.h"
 
-
-GameRound::GameRound()
-{
-}
 
 GameRound::GameRound(Game* gm, int sizeofCommand, int roundNumber)
 {
 	_commandSize = sizeofCommand;
 	_roundNumber = roundNumber;
 	_game = gm;
+
+	for (int i = 0; i < 5; i++)
+	{
+		Mission* ms = new Mission(this, GetGame()->GetGameAgents()->GetAgents()[0], i + 1);
+		_propMissions.push_back(ms);
+	}
+
+	_currentPropMission = _propMissions.at(0); // первая миссия активна
+	_currentPropMission->SetIsActiveMission(true);
+
 }
 
 
 GameRound::~GameRound()
 {
+	for (size_t i = 0; i < _propMissions.size(); i++)
+	{
+		delete(_propMissions[i]);
+	}
 }
 
 MissionResult GameRound::GetResult()
 {
-	if (_propMissions.size() == 0)
-	{
+	if(_propMissions.size() == 0)
 		return MissionResult::UnknownRes;
-	}
-	if (_propMissions.size() == 5 && _currentPropMission->GetMissionResult() == MissionResult::VoteDown)
+	if (GetCurrentPropMission()->GetMissionNumber() == 5 && _currentPropMission->GetMissionResult() == MissionResult::VoteDown)
 	{
 		return MissionResult::Failed;
 	}
@@ -40,7 +48,7 @@ MissionResult GameRound::GetResult()
 
 Mission* GameRound::GetCurrentPropMission()
 {
-	return _currentPropMission;;
+	return _currentPropMission;
 }
 
 void GameRound::SetCurrentPropMission(Mission* mission)
@@ -85,7 +93,7 @@ void GameRound::SetIsActiveRound(bool isActive)
 
 void GameRound::CheckProposalMission()
 {
-	if (GetResult() == (MissionResult::Executed || MissionResult::Failed))
+	if (GetResult() == (MissionResult::Executed | MissionResult::Failed))
 	{
 		SetIsActiveRound(false);
 		GetGame()->CheckRound();
@@ -98,11 +106,16 @@ void GameRound::CheckProposalMission()
 
 void GameRound::CreateNewProposalMission()
 {
+	int missionNumber = _currentPropMission->GetMissionNumber();
+	if (missionNumber == GetPropMission().size())
+		throw 1;
+
 	int LiderId = _currentPropMission->GetLider()->GetOrderNumber() + 1;
 	GetCurrentPropMission()->GetLider()->SetIsLider(false);
+	GetCurrentPropMission()->SetIsActiveMission(false);
 	if (LiderId == GetGame()->GetGameAgents()->GetAgents().size())
 	{
-		LiderId == 0;
+		LiderId = 0;
 	}
 
 	Agent* lider = nullptr;
@@ -114,7 +127,14 @@ void GameRound::CreateNewProposalMission()
 			lider = GetGame()->GetGameAgents()->GetAgents()[i];
 		}
 	}
-	_currentPropMission->SetIsActiveMission(false);
-	_currentPropMission = new Mission(this, lider);
-	_propMissions.push_back(_currentPropMission);
+
+	SetCurrentPropMission(GetPropMission()[missionNumber]);
+	GetCurrentPropMission()->SetLider(lider);
+	GetCurrentPropMission()->GetLider()->SetIsLider(true);
+	GetCurrentPropMission()->SetIsActiveMission(true);
+
+
+	//_currentPropMission->SetIsActiveMission(false);
+	//_currentPropMission = new Mission(this, lider, missionNumber + 1);
+	//_propMissions.push_back(_currentPropMission);
 }

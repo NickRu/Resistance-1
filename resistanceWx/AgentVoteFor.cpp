@@ -1,4 +1,3 @@
-#include "AllEnum.h"
 #include "AgentVoteFor.h"
 
 template<typename T>
@@ -50,5 +49,6 @@ void AgentVoteFor<T>::SetAgent(Agent agt)
 	_agent = agt;
 }
 
+template class AgentVoteFor<int>;
 template class AgentVoteFor<VoteforCreation>;
 template class AgentVoteFor<VoteforExecution>;

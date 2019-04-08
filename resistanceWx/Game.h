@@ -1,21 +1,21 @@
 #pragma once
 #include <vector>
 #include <map>
-#include "Agent.h"
 #include "Player.h"
+#include "Agent.h"
 #include "AllEnum.h"
 
 using namespace std;
 
-class GameRound;
-class GameAgents;
+class GameAgents; //Forward Declare
+class GameRound; //Forward Declare
 
 class Game
 {
 private:
 	int _lowBorderAgents;
 	int _highBorderAgents;
-	GameAgents* _agents;
+	GameAgents* _gameAgents;
 	vector<GameRound*> _gameRounds;
 	map<int, int> _spyNumbers;
 	map<int, vector<int>> _missionNumbers;
@@ -33,9 +33,11 @@ public:
 
 	vector<GameRound*> GetGameRounds();
 
+	GameRound* GetCurrentGameRound();
+
 	MissionResult Result();
 	
-	bool RegistryGameAgent(Player pl);
+	bool RegistryGameAgent(Player* pl);
 	bool UnregistryGameAgent(Agent ag);
 
 	void ExecuteStart();

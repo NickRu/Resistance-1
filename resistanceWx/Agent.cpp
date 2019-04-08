@@ -1,10 +1,10 @@
+#include <string>
 #include "Agent.h"
-#include "Player.h"
 
-Agent::Agent(Player player, AgentStatus status)
+Agent::Agent(Player* player)
 {
 	_player = player;			//в конструкторе присваиваем всем частным переменным значения
-	_status = AgentStatus::Fighter;
+	_status = SpyAgentStatus::Fighter;
 	//_codeName = code;
 }
 
@@ -18,7 +18,7 @@ Agent::~Agent()
 
 Player Agent::GetPlayer()
 {
-	return _player;
+	return *_player;
 }
 
 int Agent::GetRandomNumber()
@@ -31,22 +31,27 @@ void Agent::SetRandomNumber(int randNumb)
 	_randomNumber = randNumb;
 }
 
-int Agent::GetOrderNumber()
+//int Agent::GetOrderNumber()
+//{
+//	return _orderNumber;
+//}
+//
+//void Agent::SetOrderNumber(int ordNumb)
+//{
+//	_orderNumber = ordNumb;
+//}
+
+int Agent::GetNumberOfAgent()
 {
-	return _orderNumber;
+	return _randomNumber;
 }
 
-void Agent::SetOrderNumber(int ordNumb)
-{
-	_orderNumber = ordNumb;
-}
-
-AgentStatus Agent::GetStatus()
+SpyAgentStatus Agent::GetStatus()
 {
 	return _status;
 }
 
-void Agent::SetStatus(AgentStatus status)
+void Agent::SetStatus(SpyAgentStatus status)
 {
 	_status = status;
 }

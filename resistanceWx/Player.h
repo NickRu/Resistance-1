@@ -1,18 +1,22 @@
+#include <string>
 #include <Windows.h>
+
+using namespace std;
 
 #pragma once
 class Player
 {
 private:
-	char* _firstName;
-	char* _secondName;
-	char* _nickName;
+	string _secondName;
+	string _nickName;
+	string _firstName;
 	GUID _id;
 	int _rating;
 	int _age;
 public:
 	Player();
-	Player(char* first, char* sec, char* nick, int rate, int age);
+	Player(string first, string sec, string nick, int rate, int age);
 	~Player();
+	string GetNickName();
 };
 

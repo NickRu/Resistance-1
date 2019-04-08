@@ -1,11 +1,10 @@
 #pragma once
 #include <vector>
-#include "AllEnum.h"
 
 using namespace std;
 
-class Game;
-class Mission;
+class Game; //Forward Declare
+class Mission; //Forward Declare
 
 class GameRound
 {
@@ -18,7 +17,6 @@ private:
 	Mission* _currentPropMission;
 	MissionResult _result;
 public:
-	GameRound();
 	GameRound(Game* gm, int sizeofCommand, int roundNumber);
 	~GameRound();
 

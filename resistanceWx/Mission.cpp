@@ -1,28 +1,34 @@
 #include "Mission.h"
 #include "Agent.h"
-#include "MissionCommand.h"
+#include "Game.h"
 #include "GameRound.h"
+#include "GameAgents.h"
+#include "MissionCommand.h"
+#include "AgentVoteFor.h"
 
 using namespace std;
 
-Mission::Mission(GameRound* rnd, Agent* lider)
+Mission::Mission(GameRound* round, Agent* lider, int missionNumber)
 {
-	_round = rnd;
+	_round = round;
 	_lider = lider;
+	_missionNumber = missionNumber;
+
+	_command = new MissionCommand(this);
 }
 
 Mission::~Mission()
 {
 }
 
-//Game Mission::GetGame()
-//{
-//	return _game;
-//}
-
 GameRound* Mission::GetCurrentGameRound()
 {
 	return _round;
+}
+
+int Mission::GetMissionNumber()
+{
+	return _missionNumber;
 }
 
 Agent* Mission::GetLider()
@@ -76,11 +82,12 @@ void Mission::SetIsActiveMission(bool isActive)
 VoteforCreation Mission::ResultofVotesforCreation()
 {
 	int s = 0;
-	vector<AgentVoteFor<VoteforCreation>> lst = GetMissionVotes();
-	for (int i = 0; i < lst.size() - 1; i++)
+	vector<AgentVoteFor<VoteforCreation>> lst = _missionVotes;
+	for (int i = 0; i < _missionVotes.size() - 1; i++)
 	{
-		AgentVoteFor<VoteforCreation> ag = lst[i];
-		if (ag.GetVote() == VoteforCreation::UnknownCreate)
+		auto a = _missionVotes[i].GetVote();
+		AgentVoteFor<VoteforCreation> ag = _missionVotes[i];
+		if (_missionVotes[i].GetVote() == VoteforCreation::UnknownCreate)
 		{
 			s++;
 		}
@@ -112,21 +119,39 @@ VoteforCreation Mission::ResultofVotesforCreation()
 
 VoteforExecution Mission::ResultofVotesforExecution()
 {
-	int t = 0;
 	vector<AgentVoteFor<VoteforExecution>> lstExecution = GetMissionExecuteVotes();
 	for (int i = 0; i < lstExecution.size(); i++)
 	{
 		AgentVoteFor<VoteforExecution> ag = lstExecution[i];
-		if (ag.GetVote() == VoteforCreation::UnknownCreate)
+		if (ag.GetVote() == VoteforExecution::UnknownExec)
+		{
+			return VoteforExecution::UnknownExec;
+		}
+	}
+
+	int t = 0;
+	for (int i = 0; i < lstExecution.size() - 1; i++)
+	{
+		AgentVoteFor<VoteforExecution> ag = lstExecution[i];
+		if (ag.GetVote() == VoteforExecution::Fail)
 		{
 			t++;
 		}
 	}
-	return VoteforExecution();
+
+	if (t > 0)
+	{
+		return VoteforExecution::UnknownExec;
+	}
+	else
+	{
+		return VoteforExecution::Fail;
+	}
 }
 
 void Mission::CreationVote(bool forCreate, Agent ag)
 {
+	VoteforCreation vtc = forCreate ? VoteforCreation::Create : VoteforCreation::Break;
 	AgentVoteFor<VoteforCreation> avf = AgentVoteFor<VoteforCreation>();
 	avf.SetAgent(ag);
 	if (forCreate)
@@ -165,11 +190,11 @@ MissionResult Mission::GetMissionResult()
 		return MissionResult::UnknownRes;
 	if (ResultofVotesforCreation() == VoteforCreation::Break)
 		return MissionResult::VoteDown;
-	if (ResultofVotesforCreation() == VoteforCreation::Create && ResultofVotesforCreation() == VoteforExecution::Fail)
+	if (ResultofVotesforCreation() == VoteforCreation::Create && ResultofVotesforExecution() == VoteforExecution::Fail)
 		return MissionResult::Failed;
-	if (ResultofVotesforCreation() == VoteforCreation::Create && ResultofVotesforCreation() == VoteforExecution::Execute)
+	if (ResultofVotesforCreation() == VoteforCreation::Create && ResultofVotesforExecution() == VoteforExecution::Execute)
 		return MissionResult::Executed;
-	if (ResultofVotesforCreation() == VoteforCreation::Create && ResultofVotesforCreation() == VoteforExecution::UnknownExec)
+	if (ResultofVotesforCreation() == VoteforCreation::Create && ResultofVotesforExecution() == VoteforExecution::UnknownExec)
 		return MissionResult::VoteUp;
 	return MissionResult::UnknownRes;
 }

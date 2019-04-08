@@ -4,17 +4,26 @@
 
 Game::Game()
 {
-	_agents = new GameAgents(this);
+	_gameAgents = new GameAgents(this);
 	SetStartCondition();
 }
 
 Game::~Game()
 {
+	// Это пока не надо
+	delete(_gameAgents);
+	int s = _gameRounds.size();
+	for (size_t i = 0; i < s; i++)
+	{
+		//delete(_gameRounds[i]);
+		GameRound* ag = _gameRounds[i];
+		delete(ag);
+	}
 }
 
 GameAgents* Game::GetGameAgents()
 {
-	return _agents;
+	return _gameAgents;
 }
 
 bool Game::CanStartGame()
@@ -35,6 +44,19 @@ map<int, int> Game::GetSpyNumbers()
 vector<GameRound*> Game::GetGameRounds()
 {
 	return _gameRounds;
+}
+
+GameRound * Game::GetCurrentGameRound()
+{
+	for (size_t i = 0; i < this->GetGameRounds().size(); i++)
+	{
+		if (this->GetGameRounds()[i]->GetIsActiveRound())
+		{
+			return  GetGameRounds()[i];
+		}
+	}
+
+	return nullptr;
 }
 
 MissionResult Game::Result()
@@ -63,16 +85,15 @@ MissionResult Game::Result()
 	return MissionResult::UnknownRes;
 }
 
-bool Game::RegistryGameAgent(Player pl)
+bool Game::RegistryGameAgent(Player* pl)
 {
 	return GetGameAgents()->RegistryAgent(pl);
 }
 
 bool Game::UnregistryGameAgent(Agent ag)
 {
-	return GetGameAgents()->UnregistryAgent(&ag);
+	return GetGameAgents()->UnregistryAgent(ag);
 }
-
 void Game::ExecuteStart()
 {
 	GetGameAgents()->ExecuteStart();
@@ -80,7 +101,7 @@ void Game::ExecuteStart()
 	for (int i = 0; i < 5; i++)
 	{
 		GameRound* gr = new GameRound(this, _missionNumbers[GetGameAgents()->GetAgents().size()][i],(i+1));
-		GetGameRounds().push_back(gr);
+		_gameRounds.push_back(gr);
 	}
 
 	_gameRounds.at(0)->SetIsActiveRound(true);	//первый раунд активный
@@ -88,6 +109,12 @@ void Game::ExecuteStart()
 
 void Game::CheckRound()
 {
+	//GameRound gr = GameRounds.First(n = > n.IsActiveRound == true);
+	//int num = gr.RoundNumber;
+	//gr.IsActiveRound = false;
+	//this.CheckGame();
+	//if (num < GameRounds.Count)
+	//	GameRounds[num].IsActiveRound = true;
 	int r = 0;
 	for (size_t i = 0; i < this->GetGameRounds().size(); i++)
 	{
@@ -99,10 +126,8 @@ void Game::CheckRound()
 		}
 	}
 	this->CheckGame();
-	if (r <= GetGameRounds().size())
-	{
+	if(r <= GetGameRounds().size())
 		GetGameRounds()[r]->SetIsActiveRound(true);
-	}
 }
 
 void Game::CheckGame()
@@ -132,7 +157,7 @@ void Game::SetStartCondition()
 		{10, {3, 4, 4, 5, 5}}
 	};
 }
-
-//void Game::SetAgents(GameAgents agents)
-//{
-//}
+//
+////void Game::SetAgents(GameAgents agents)
+////{
+////}

@@ -1,7 +1,8 @@
 #pragma once
 #include "Agent.h"
 
-class MissionCommand;
+class MissionCommand; //Forward Declare
+
 
 class AgentInMission					//агент в конкретной миссии
 {
@@ -19,7 +20,7 @@ public:
 	void SetAgent(Agent ag);			//даем агента, который данный агент в миссии?? (нужен в ...)
 	Agent GetAgent();					//получаем агента?? (нужен в ...)
 
-	void SetCommand(MissionCommand* cm);//даем команду?? (нужен в ...)
+	void SetCommand(MissionCommand* cm);	//даем команду?? (нужен в ...)
 	MissionCommand* GetCommand();		//получаем команду?? (нужен в ...)
 
 	void SetIsSelected(bool b);			//статус выбора даем

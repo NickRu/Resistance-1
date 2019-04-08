@@ -5,13 +5,13 @@
 #include "AllEnum.h"
 
 using namespace std;
-
-class MissionCommand;
-class GameRound;
+class GameRound; //Forward Declare
+class MissionCommand; //Forward Declare
 
 class Mission
 {
 private:
+	int _missionNumber;
 	GameRound* _round;
 	Agent* _lider;
 	MissionCommand* _command;
@@ -20,12 +20,11 @@ private:
 	vector<AgentVoteFor<VoteforCreation>> _missionVotes;
 	vector<AgentVoteFor<VoteforExecution>> _missionExecuteVotes;
 public:
-	Mission(GameRound* rnd, Agent* lider);
+	Mission(GameRound* round, Agent* lider, int missionNumber);
 	~Mission();
 
-	//Game GetGame();
-
 	GameRound* GetCurrentGameRound();
+	int GetMissionNumber();
 
 	Agent* GetLider();
 	void SetLider(Agent* lider);

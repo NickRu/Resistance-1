@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(char* first, char* sec, char* nick, int rate, int age)
+Player::Player(string first, string sec, string nick, int rate, int age)
 {
 	_firstName = first;
 	_secondName = sec;
@@ -17,6 +17,11 @@ Player::Player()
 
 Player::~Player()
 {
+}
+
+string Player::GetNickName()
+{
+	return _nickName;
 }
 
 //гетеры-сетеры
