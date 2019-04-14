@@ -1,11 +1,16 @@
 #include <string>
 #include "Agent.h"
 
-Agent::Agent(Player* player)
+Agent::Agent(Player * player)
 {
 	_player = player;			//в конструкторе присваиваем всем частным переменным значения
 	_status = SpyAgentStatus::Fighter;
 	//_codeName = code;
+
+	//Slava
+
+
+
 }
 
 Agent::Agent()
@@ -70,4 +75,3 @@ bool Agent::Comp(Agent* lhs, Agent* rhs)
 {
 	return (*lhs)._randomNumber < (*rhs)._randomNumber;
 }
-

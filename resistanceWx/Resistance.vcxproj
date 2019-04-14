@@ -23,7 +23,7 @@
     <ProjectGuid>{F21B5B76-8197-4613-93F5-5A7FD0026839}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Resistance</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,7 +101,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -162,6 +162,7 @@
     <ClInclude Include="GameRound.h" />
     <ClInclude Include="Mission.h" />
     <ClInclude Include="MissionCommand.h" />
+    <ClInclude Include="OrderAgent.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +174,7 @@
     <ClCompile Include="GameRound.cpp" />
     <ClCompile Include="Mission.cpp" />
     <ClCompile Include="MissionCommand.cpp" />
+    <ClCompile Include="OrderAgent.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Resistance.cpp" />
   </ItemGroup>

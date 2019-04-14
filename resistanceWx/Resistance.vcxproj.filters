@@ -45,6 +45,9 @@
     <ClInclude Include="AllEnum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OrderAgent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resistance.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameAgents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrderAgent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

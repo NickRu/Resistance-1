@@ -26,7 +26,7 @@ GameRound::GameRound(Game* gm, int sizeofCommand, int roundNumber)
 
 GameRound::~GameRound()
 {
-	for (size_t i = 0; i < _propMissions.size(); i++)
+	for (int i = 0; i < _propMissions.size(); i++)
 	{
 		delete(_propMissions[i]);
 	}

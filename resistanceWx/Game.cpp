@@ -13,7 +13,7 @@ Game::~Game()
 	// Это пока не надо
 	delete(_gameAgents);
 	int s = _gameRounds.size();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < s; i++)
 	{
 		//delete(_gameRounds[i]);
 		GameRound* ag = _gameRounds[i];
@@ -48,7 +48,7 @@ vector<GameRound*> Game::GetGameRounds()
 
 GameRound * Game::GetCurrentGameRound()
 {
-	for (size_t i = 0; i < this->GetGameRounds().size(); i++)
+	for (int i = 0; i < this->GetGameRounds().size(); i++)
 	{
 		if (this->GetGameRounds()[i]->GetIsActiveRound())
 		{
@@ -116,7 +116,7 @@ void Game::CheckRound()
 	//if (num < GameRounds.Count)
 	//	GameRounds[num].IsActiveRound = true;
 	int r = 0;
-	for (size_t i = 0; i < this->GetGameRounds().size(); i++)
+	for (int i = 0; i < this->GetGameRounds().size(); i++)
 	{
 		if (this->GetGameRounds()[i]->GetIsActiveRound())
 		{

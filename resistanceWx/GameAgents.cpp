@@ -17,7 +17,7 @@ GameAgents::~GameAgents()
 {
 	// Это пока не надо
 	int s = _agents.size();
-	for (size_t i = 0; i < s; i++)
+	for (int i = 0; i < s; i++)
 	{
 		Agent* ag = _agents[i];
 		delete(ag);
@@ -55,7 +55,7 @@ void GameAgents::ExecuteStart()
 	}
 
 	std::sort(_agents.begin(), _agents.end(), Agent::Comp);
-	for (int i = 0; i < GetGame()->GetSpyNumbers()[_agents.size()]; i++)
+	for (int i = 0; i < GetGame()->GetSpyNumbers()[_agents.size()-1]; i++)//here was an update
 	{
 		_agents[i]->SetStatus(SpyAgentStatus::Spy);
 	}

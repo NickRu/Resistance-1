@@ -37,4 +37,3 @@ public:
 
 	static bool Comp(Agent* lhs, Agent* rhs);
 };
-
