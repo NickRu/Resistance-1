@@ -111,7 +111,6 @@ int main()
 	//players_vector.push_back("Lisa");
 	////players_vector.push_back("Molly");
 	////players_vector.push_back("Gerald");
-
 	//std::string player_choosen = players_vector[0]; //Какого игрока отображать на экране. По умолчанию первого.
 	//// Конец наполнения
 
