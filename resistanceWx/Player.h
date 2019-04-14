@@ -18,5 +18,6 @@ public:
 	Player(string first, string sec, string nick, int rate, int age);
 	~Player();
 	string GetNickName();
+	string GetFirstName();
 };
 

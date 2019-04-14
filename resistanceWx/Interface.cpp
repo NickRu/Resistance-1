@@ -24,7 +24,7 @@ int main()
 
 
 	#pragma region InitRegion
-	char first0[] = "Папа";
+	char first0[] = "Alex";
 	char sec0[] = "Ф";
 	char code0[] = "Jhon";
 	int rate0 = 100;
@@ -32,7 +32,7 @@ int main()
 	Player* pl0 = new Player(first0, sec0, code0, rate0, age0);
 	gm->GetGameAgents()->RegistryAgent(pl0);
 
-	char first1[] = "Мама";
+	char first1[] = "Oleg";
 	char sec1[] = "Ф";
 	char code1[] = "Ivan";
 	int rate1 = 100;
@@ -40,7 +40,7 @@ int main()
 	Player* pl1 = new Player(first1, sec1, code1, rate1, age1);
 	gm->GetGameAgents()->RegistryAgent(pl1);
 
-	char first2[] = "Маша";
+	char first2[] = "Masha";
 	char sec2[] = "Ф";
 	char code2[] = "Henry";
 	int rate2 = 100;
@@ -49,7 +49,7 @@ int main()
 	gm->GetGameAgents()->RegistryAgent(pl2);
 
 
-	char first3[] = "Аня";
+	char first3[] = "Anna";
 	char sec3[] = "Ф";
 	char code3[] = "Fred";
 	int rate3 = 100;
@@ -61,7 +61,7 @@ int main()
 	else
 		cout << "Игроков достаточно\n";
 
-	char first4[] = "Анастасия";
+	char first4[] = "Anastasia";
 	char sec4[] = "Ф";
 	char code4[] = "Dart Vaider";
 	int rate4 = 100;
@@ -69,7 +69,7 @@ int main()
 	Player* pl4 = new Player(first4, sec4, code4, rate4, age4);
 	gm->GetGameAgents()->RegistryAgent(pl4);
 
-	char first5[] = "Рита";
+	char first5[] = "Rita";
 	char sec5[] = "Ф";
 	char code5[] = "Ginny";
 	int rate5 = 100;
@@ -77,7 +77,7 @@ int main()
 	Player* pl5 = new Player(first5, sec5, code5, rate5, age5);
 	gm->GetGameAgents()->RegistryAgent(pl5);
 
-	char first6[] = "Слава";
+	char first6[] = "Slava";
 	char sec6[] = "Ф";
 	char code6[] = "Peter";
 	int rate6 = 100;
@@ -85,7 +85,7 @@ int main()
 	Player* pl6 = new Player(first6, sec6, code6, rate6, age6);
 	gm->GetGameAgents()->RegistryAgent(pl6);
 
-	char first7[] = "Настя";
+	char first7[] = "Nastya";
 	char sec7[] = "Ф";
 	char code7[] = "Lisa";
 	int rate7 = 100;
@@ -98,22 +98,22 @@ int main()
 	tgui::Gui gui{ window };
 
 
-	// Вектор игроков. Важны только имена и расположение в этом векторе. Может быть произвольного размера от 4 до 10
-	std::vector<std::string> players_vector;
-	// Наполняем
-	players_vector.push_back("Jhon");
-	players_vector.push_back("Ivan");
-	players_vector.push_back("Henry");
-	players_vector.push_back("Dart Vaider");
-	players_vector.push_back("Fred");
-	players_vector.push_back("Ginny");
-	players_vector.push_back("Peter");
-	players_vector.push_back("Lisa");
-	//players_vector.push_back("Molly");
-	//players_vector.push_back("Gerald");
+	//// Вектор игроков. Важны только имена и расположение в этом векторе. Может быть произвольного размера от 4 до 10
+	//std::vector<std::string> players_vector;
+	//// Наполняем
+	//players_vector.push_back("Jhon");
+	//players_vector.push_back("Ivan");
+	//players_vector.push_back("Henry");
+	//players_vector.push_back("Dart Vaider");
+	//players_vector.push_back("Fred");
+	//players_vector.push_back("Ginny");
+	//players_vector.push_back("Peter");
+	//players_vector.push_back("Lisa");
+	////players_vector.push_back("Molly");
+	////players_vector.push_back("Gerald");
 
-	std::string player_choosen = players_vector[0]; //Какого игрока отображать на экране. По умолчанию первого.
-	// Конец наполнения
+	//std::string player_choosen = players_vector[0]; //Какого игрока отображать на экране. По умолчанию первого.
+	//// Конец наполнения
 
 	////Загружаем основной интерфейс из файла, после инициализируем все нужные виджеты
 	gui.loadWidgetsFromFile("interface.txt");
@@ -170,13 +170,13 @@ int main()
 	tgui::MenuBar::Ptr menu = tgui::MenuBar::create();
 	gui.add(menu);
 
-	for (auto p : players_vector)
+	for (auto p : gm->GetGameAgents()->GetAgents())
 	{
-		menu->addMenu(p);
-		menu->addMenuItem(p);//Добавляем менюшку с именами игроков. На саму менюшку кликать нельзя, поэтому добавляем подменю
+		menu->addMenu(p->GetPlayer().GetFirstName());
+		menu->addMenuItem(p->GetPlayer().GetFirstName());//Добавляем менюшку с именами игроков. На саму менюшку кликать нельзя, поэтому добавляем подменю
 	}
 
-	menu->connect("MenuItemClicked", change_player, &player_choosen); // Команда, чтобы поменять выбранного игрока по нажатию
+	menu->connect("MenuItemClicked", change_player, &(gm->GetGameAgents()->GetAgents()[0]->GetPlayer().GetNickName())); // Команда, чтобы поменять выбранного игрока по нажатию
 	//Далее знаем, от чьего лица сейчас показывается экран. Имя выбранного игрока должно показываться сверху
 	////////////////////////
 
@@ -184,7 +184,7 @@ int main()
 	std::vector<tgui::CheckBox::Ptr> player_buttons; //Вектор всех кнопок
 	std::vector<tgui::Label::Ptr> label_player_name_vector; //Вектор всех ярлыков с именами игроков (Подписи кнопок)
 
-	for (auto p : players_vector)
+	for (auto p : gm->GetGameAgents()->GetAgents())
 	{
 		tgui::CheckBox::Ptr chbx = tgui::CheckBox::create();
 		chbx->setSize(21, 21);
@@ -192,7 +192,7 @@ int main()
 		window_missions_panel->add(player_buttons[player_buttons.size() - 1]); //Добавляем всё во внутренне окно
 
 		tgui::Label::Ptr lbl = tgui::Label::create();
-		lbl->setText(p); //Присваиваем поочередно имена игроков ярлыкам
+		lbl->setText(p->GetPlayer().GetNickName()); //Присваиваем поочередно имена игроков ярлыкам
 		label_player_name_vector.push_back(lbl);
 		window_missions_panel->add(label_player_name_vector[label_player_name_vector.size() - 1]);
 	}
@@ -228,7 +228,7 @@ int main()
 		}
 
 		////Основной алгоритм////
-		label_curr_player->setText(player_choosen);
+		label_curr_player->setText(gm->GetGameAgents()->GetAgents()[0]->GetPlayer().GetNickName());
 
 
 

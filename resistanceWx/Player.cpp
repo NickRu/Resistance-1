@@ -24,5 +24,9 @@ string Player::GetNickName()
 	return _nickName;
 }
 
+string Player::GetFirstName()
+{
+	return _firstName;
+}
 //гетеры-сетеры
 
