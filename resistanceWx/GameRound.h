@@ -11,7 +11,7 @@ class GameRound
 private:
 	int _roundNumber;
 	bool _isActiveRound;
-	int _commandSize;
+	int _commandSize;				//количество игроков на миссию при данных игроках в данном раунде
 	Game* _game;
 	vector<Mission*> _propMissions;
 	Mission* _currentPropMission;
