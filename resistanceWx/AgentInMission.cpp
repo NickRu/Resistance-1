@@ -8,6 +8,7 @@ AgentInMission::AgentInMission(MissionCommand* cm, Agent ag)
 {
 	_command = cm;
 	_agent = ag;
+	_isSelected = false;
 }
 
 
