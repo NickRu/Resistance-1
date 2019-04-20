@@ -13,8 +13,15 @@ Mission::Mission(GameRound* round, Agent* lider, int missionNumber)
 	_round = round;
 	_lider = lider;
 	_missionNumber = missionNumber;
-
 	_command = new MissionCommand(this);
+
+	for (int i = 0; i < _command->GetCommand().size(); i++)
+	{
+		AgentVoteFor<VoteforCreation> avf = AgentVoteFor<VoteforCreation>();
+		avf.SetAgent(_command->GetCommand()[i]->GetAgent());
+		avf.SetVote(VoteforCreation::UnknownCreate);
+		_missionVotes.push_back(avf);
+	}
 }
 
 Mission::~Mission()
@@ -83,7 +90,7 @@ VoteforCreation Mission::ResultofVotesforCreation()
 {
 	int s = 0;
 	vector<AgentVoteFor<VoteforCreation>> lst = _missionVotes;
-	for (int i = 0; i < _missionVotes.size() - 1; i++)
+	for (int i = 0; i < _missionVotes.size(); i++)
 	{
 		auto a = _missionVotes[i].GetVote();
 		AgentVoteFor<VoteforCreation> ag = _missionVotes[i];
@@ -152,18 +159,13 @@ VoteforExecution Mission::ResultofVotesforExecution()
 void Mission::CreationVote(bool forCreate, Agent ag)
 {
 	VoteforCreation vtc = forCreate ? VoteforCreation::Create : VoteforCreation::Break;
-	AgentVoteFor<VoteforCreation> avf = AgentVoteFor<VoteforCreation>();
-	avf.SetAgent(ag);
-	if (forCreate)
+	for (auto avf : _missionVotes)
 	{
-		avf.SetVote(VoteforCreation::Create);
+		if (avf.GetAgent().GetPlayer().GetID() == ag.GetPlayer().GetID())
+		{
+			avf.SetVote(vtc);
+		}
 	}
-	else
-	{
-		avf.SetVote(VoteforCreation::Break);
-	}
-	GetMissionVotes().push_back(avf);
-
 	GetCurrentGameRound()->CheckProposalMission();
 }
 

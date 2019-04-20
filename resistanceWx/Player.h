@@ -19,5 +19,6 @@ public:
 	~Player();
 	string GetNickName();
 	string GetFirstName();
+	GUID GetID();
 };
 

@@ -18,13 +18,35 @@ void change_player(Agent** agent_choosen, Agent* i) // Команда, чтобы поменять в
 	(*agent_choosen) = i;
 }
 
+void create_mission(Game** gm, Agent** agent_choosen, bool b) // Команда, чтобы поменять выбранного игрока по нажатию
+{
+	(*gm)->GetCurrentGameRound()->GetCurrentPropMission()->CreationVote(b, ** agent_choosen);
+	//for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
+	//{
+	//	AgentInMission* aim = ((*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k]);
+	//	if (nickN == aim->GetAgent().GetPlayer().GetNickName())
+	//		aim->SetIsSelected(true);
+	//}
+}
+
+void exec_mission(Game** gm, Agent** agent_choosen, bool b) // Команда, чтобы поменять выбранного игрока по нажатию
+{
+	(*gm)->GetCurrentGameRound()->GetCurrentPropMission()->ExecutionVote(b, ** agent_choosen);
+	//for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
+	//{
+	//	AgentInMission* aim = ((*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k]);
+	//	if (nickN == aim->GetAgent().GetPlayer().GetNickName())
+	//		aim->SetIsSelected(true);
+	//}
+}
+
 void checkPlayer(Game** gm, std::string nickN) // Команда, чтобы поменять выбранного игрока по нажатию
 {
 	for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
 	{
-		AgentInMission aim = (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
-		if (nickN == aim.GetAgent().GetPlayer().GetNickName())
-			aim.SetIsSelected(true);
+		AgentInMission* aim = ((*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k]);
+		if (nickN == aim->GetAgent().GetPlayer().GetNickName())
+			aim->SetIsSelected(true);
 	}
 }
 
@@ -32,9 +54,9 @@ void uncheckPlayer(Game** gm, std::string nickN) // Команда, чтобы поменять выбр
 {
 	for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
 	{
-		AgentInMission aim = (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
-		if (nickN == aim.GetAgent().GetPlayer().GetNickName())
-			aim.SetIsSelected(false);
+		AgentInMission* aim = (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
+		if (nickN == aim->GetAgent().GetPlayer().GetNickName())
+			aim->SetIsSelected(false);
 	}
 }
 
@@ -152,12 +174,27 @@ int main()
 
 	tgui::RadioButton::Ptr rad_but_accept;
 	rad_but_accept = gui.get<tgui::RadioButton>("rad_but_accept");
+	rad_but_accept->connect("checked", create_mission, &(gm), &agent_choosen, true);
+
 	tgui::RadioButton::Ptr rad_but_refuse;
 	rad_but_refuse = gui.get<tgui::RadioButton>("rad_but_refuse");
+	rad_but_refuse->connect("checked", create_mission, &(gm), &agent_choosen, false);
+
+	tgui::RadioButton::Ptr rad_but_unknown_create;
+	rad_but_unknown_create = gui.get<tgui::RadioButton>("rad_but_unknown_create");
+	rad_but_unknown_create->setVisible(false);
+
 	tgui::RadioButton::Ptr rad_but_help;
 	rad_but_help = gui.get<tgui::RadioButton>("rad_but_help");
+	rad_but_help->connect("checked", exec_mission, &(gm), &agent_choosen, true);
+
 	tgui::RadioButton::Ptr rad_but_hinder;
 	rad_but_hinder = gui.get<tgui::RadioButton>("rad_but_hinder");
+	rad_but_hinder->connect("checked", exec_mission, &(gm), &agent_choosen, false);
+
+	tgui::RadioButton::Ptr rad_but_unknown_exec;
+	rad_but_unknown_exec = gui.get<tgui::RadioButton>("rad_but_unknown_exec");
+	rad_but_unknown_exec->setVisible(false);
 	////////////////////////////
 
 
@@ -273,6 +310,17 @@ int main()
 		{
 			rad_but_accept->setEnabled(false);
 			rad_but_refuse->setEnabled(false);
+		}
+
+		if (gm->GetCurrentGameRound()->GetCurrentPropMission()->ResultofVotesforCreation() == VoteforCreation::Create)
+		{
+			rad_but_help->setEnabled(true);
+			rad_but_hinder->setEnabled(true);
+		}
+		else
+		{
+			rad_but_help->setEnabled(false);
+			rad_but_hinder->setEnabled(false);
 		}
 
 

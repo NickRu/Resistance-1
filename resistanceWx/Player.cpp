@@ -28,5 +28,9 @@ string Player::GetFirstName()
 {
 	return _firstName;
 }
+GUID Player::GetID()
+{
+	return _id;
+}
 //гетеры-сетеры
 

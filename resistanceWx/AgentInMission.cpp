@@ -51,9 +51,10 @@ MissionCommand* AgentInMission::GetCommand()
 
 void AgentInMission::SetIsSelected(bool b)
 {
-	if (GetCommand()->GetMission()->GetCurrentGameRound()->GetCommandSize() > GetCommand()->NumberofSelected())
+	_isSelected = b;
+	if (GetCommand()->GetMission()->GetCurrentGameRound()->GetCommandSize() < GetCommand()->NumberofSelected())
 	{
-		_isSelected = b;
+		_isSelected = !b;
 	}
 }
 

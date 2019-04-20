@@ -11,7 +11,7 @@ MissionCommand::MissionCommand(Mission* ms)
 	vector<Agent*> vc = GetMission()->GetCurrentGameRound()->GetGame()->GetGameAgents()->GetAgents();
 	for (int i = 0; i < vc.size(); i++)
 	{
-		_command.push_back(AgentInMission(this, *vc[i]));
+		_command.push_back(new AgentInMission(this, *vc[i]));
 	}
 }
 
@@ -25,7 +25,7 @@ Mission* MissionCommand::GetMission()
 	return _mission;
 }
 
-vector<AgentInMission> MissionCommand::GetCommand()
+vector<AgentInMission*> MissionCommand::GetCommand()
 {
 	return _command;
 }
@@ -33,10 +33,10 @@ vector<AgentInMission> MissionCommand::GetCommand()
 int MissionCommand::NumberofSelected()
 {
 	int cnt = 0;
-	vector<AgentInMission> vc = GetCommand();
+	vector<AgentInMission*> vc = GetCommand();
 	for (int i = 0; i < vc.size(); i++)
 	{
-		if (vc[i].GetIsSelected())
+		if (vc[i]->GetIsSelected())
 		{
 			cnt++;
 		}

@@ -9,7 +9,7 @@ class Mission; //Forward Declare
 class MissionCommand
 {
 private:
-	vector<AgentInMission> _command;
+	vector<AgentInMission*> _command;
 	Mission* _mission;
 public:
 	MissionCommand(Mission* ms);
@@ -17,7 +17,7 @@ public:
 
 	Mission* GetMission();
 
-	vector<AgentInMission> GetCommand();
+	vector<AgentInMission*> GetCommand();
 
 	int NumberofSelected();
 };

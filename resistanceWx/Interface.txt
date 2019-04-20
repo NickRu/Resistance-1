@@ -235,10 +235,17 @@ ChildWindow.window_round {
             }
 
             RadioButton.rad_but_refuse {
-                Checked = true;
                 Position = (200, 80);
                 Size = (36, 36);
                 TextSize = 13;
+                renderer = &7;
+            }
+
+            RadioButton.rad_but_unknown_create {
+                Checked = true;
+                Position = (240, 80);
+                Size = (10, 10);
+                TextSize = 4;
                 renderer = &7;
             }
 
@@ -340,7 +347,6 @@ ChildWindow.window_round {
             }
 
             RadioButton.rad_but_help {
-                Checked = true;
                 Position = (60, 80);
                 Size = (36, 36);
                 TextSize = 13;
@@ -351,6 +357,15 @@ ChildWindow.window_round {
                 Position = (200, 80);
                 Size = (36, 36);
                 TextSize = 13;
+                renderer = &7;
+            }
+
+
+            RadioButton.rad_but_unknown_exec {
+                Checked = true;
+                Position = (240, 80);
+                Size = (10, 10);
+                TextSize = 4;
                 renderer = &7;
             }
 
