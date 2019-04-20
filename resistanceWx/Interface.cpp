@@ -13,93 +13,65 @@
 #include "Player.h"
 #include <iostream>
 
-void change_player(Agent** agent_choosen, Game** gm, const sf::String& param) // Команда, чтобы поменять выбранного игрока по нажатию
+void change_player(Agent** agent_choosen, Agent* i) // Команда, чтобы поменять выбранного игрока по нажатию
 {
-	for (auto p : (*gm)->GetGameAgents()->GetAgents()) //Меняем имя выбранного игрока
+	(*agent_choosen) = i;
+}
+
+void checkPlayer(Game** gm, std::string nickN) // Команда, чтобы поменять выбранного игрока по нажатию
+{
+	for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
 	{
-		if ((param == p->GetPlayer().GetNickName()))
-		{
-			(*agent_choosen) = p;
-			return;
-		}
+		AgentInMission aim = (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
+		if (nickN == aim.GetAgent().GetPlayer().GetNickName())
+			aim.SetIsSelected(true);
 	}
+}
 
-	if (param == "    NEXT_TURN    ") //Если нажато кнопка окончания голосования
+void uncheckPlayer(Game** gm, std::string nickN) // Команда, чтобы поменять выбранного игрока по нажатию
+{
+	for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
 	{
+		AgentInMission aim = (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
+		if (nickN == aim.GetAgent().GetPlayer().GetNickName())
+			aim.SetIsSelected(false);
 	}
-	return;
 }
-
-void change_round_1(int* selected_round)
-{
-	*selected_round = 1;
-	return;
-}
-
-void change_round_2(int* selected_round)
-{
-	*selected_round = 2;
-	return;
-}
-
-void change_round_3(int* selected_round)
-{
-	*selected_round = 3;
-	return;
-}
-
-void change_round_4(int* selected_round)
-{
-	*selected_round = 4;
-	return;
-}
-
-void change_round_5(int* selected_round)
-{
-	*selected_round = 5;
-	return;
-}
-
-
 
 int main()
 {
 	Game* gm = new Game();
-	int result = 0; //Результаты раундов
-	int selected_round = 1; //Выбранный в интерфейсе раунд
-	int active_round = 0; //Активный в самой игре раунд(Который сейчас проходит)
-	int prop_mission = 0; //Активная миссия в активном раунде
 
 
 	#pragma region InitRegion
-	string first0 = "Alex";
-	string sec0 = "Ф";
-	string code0 = "Alex";
+	char first0[] = "Alex";
+	char sec0[] = "Ф";
+	char code0[] = "Jhon";
 	int rate0 = 100;
 	int age0 = 48;
 	Player* pl0 = new Player(first0, sec0, code0, rate0, age0);
 	gm->GetGameAgents()->RegistryAgent(pl0);
 
-	string first1 = "Oleg";
-	string sec1 = "Ф";
-	string code1 = "Oleg";
+	char first1[] = "Oleg";
+	char sec1[] = "Ф";
+	char code1[] = "Ivan";
 	int rate1 = 100;
 	int age1 = 45;
 	Player* pl1 = new Player(first1, sec1, code1, rate1, age1);
 	gm->GetGameAgents()->RegistryAgent(pl1);
 
-	string first2 = "Masha";
-	string sec2 = "Ф";
-	string code2 = "Masha";
+	char first2[] = "Masha";
+	char sec2[] = "Ф";
+	char code2[] = "Henry";
 	int rate2 = 100;
 	int age2 = 18;
 	Player* pl2 = new Player(first2, sec2, code2, rate2, age2);
 	gm->GetGameAgents()->RegistryAgent(pl2);
 
 
-	string first3 = "Anna";
-	string sec3 = "Ф";
-	string code3 = "Anna";
+	char first3[] = "Anna";
+	char sec3[] = "Ф";
+	char code3[] = "Fred";
 	int rate3 = 100;
 	int age3 = 15;
 	Player* pl3 = new Player(first3, sec3, code3, rate3, age3);
@@ -109,33 +81,33 @@ int main()
 	else
 		cout << "Игроков достаточно\n";
 
-	string first4 = "Anastasia";
-	string sec4 = "Ф";
-	string code4 = "Anastasia";
+	char first4[] = "Anastasia";
+	char sec4[] = "Ф";
+	char code4[] = "Dart Vaider";
 	int rate4 = 100;
 	int age4 = 65;
 	Player* pl4 = new Player(first4, sec4, code4, rate4, age4);
 	gm->GetGameAgents()->RegistryAgent(pl4);
 
-	string first5 = "Rita";
-	string sec5 = "Ф";
-	string code5 = "Rita";
+	char first5[] = "Rita";
+	char sec5[] = "Ф";
+	char code5[] = "Ginny";
 	int rate5 = 100;
 	int age5 = 18;
 	Player* pl5 = new Player(first5, sec5, code5, rate5, age5);
 	gm->GetGameAgents()->RegistryAgent(pl5);
 
-	string first6 = "Slava";
-	string sec6 = "Ф";
-	string code6 = "Slava";
+	char first6[] = "Slava";
+	char sec6[] = "Ф";
+	char code6[] = "Peter";
 	int rate6 = 100;
 	int age6 = 18;
 	Player* pl6 = new Player(first6, sec6, code6, rate6, age6);
 	gm->GetGameAgents()->RegistryAgent(pl6);
 
-	string first7 = "Nastya";
-	string sec7 = "Ф";
-	string code7 = "Nastya";
+	char first7[] = "Nastya";
+	char sec7[] = "Ф";
+	char code7[] = "Lisa";
 	int rate7 = 100;
 	int age7 = 18;
 	Player* pl7 = new Player(first7, sec7, code7, rate7, age7);
@@ -145,23 +117,7 @@ int main()
 	sf::RenderWindow window{ {800, 600}, "Window" };
 	tgui::Gui gui{ window };
 
-
-	//// Вектор игроков. Важны только имена и расположение в этом векторе. Может быть произвольного размера от 4 до 10
-	//std::vector<std::string> players_vector;
-	//// Наполняем
-	//players_vector.push_back("Jhon");
-	//players_vector.push_back("Ivan");
-	//players_vector.push_back("Henry");
-	//players_vector.push_back("Dart Vaider");
-	//players_vector.push_back("Fred");
-	//players_vector.push_back("Ginny");
-	//players_vector.push_back("Peter");
-	//players_vector.push_back("Lisa");
-	////players_vector.push_back("Molly");
-	////players_vector.push_back("Gerald");
-
 	Agent *agent_choosen = gm->GetGameAgents()->GetAgents()[0]; //Какого игрока отображать на экране. По умолчанию первого.
-	//// Конец наполнения
 
 	////Загружаем основной интерфейс из файла, после инициализируем все нужные виджеты
 	gui.loadWidgetsFromFile("interface.txt");
@@ -169,18 +125,13 @@ int main()
 	tgui::Label::Ptr label_curr_player;
 	label_curr_player = gui.get<tgui::Label>("label_curr_player");
 	label_curr_player->setPosition(window.getSize().x * 0.5 - 0.3 * label_curr_player->getSize().x, 25);
-	
+
 	tgui::Button::Ptr buttons_r[5]; // массив кнопок раундов. Для того, чтобы проходить по циклу
 	buttons_r[0] = gui.get<tgui::Button>("button_r_1");
-	buttons_r[0]->connect("Pressed", change_round_1, &selected_round);
 	buttons_r[1] = gui.get<tgui::Button>("button_r_2");
-	buttons_r[1]->connect("Pressed", change_round_2, &selected_round);
 	buttons_r[2] = gui.get<tgui::Button>("button_r_3");
-	buttons_r[2]->connect("Pressed", change_round_3, &selected_round);
 	buttons_r[3] = gui.get<tgui::Button>("button_r_4");
-	buttons_r[3]->connect("Pressed", change_round_4, &selected_round);
 	buttons_r[4] = gui.get<tgui::Button>("button_r_5");
-	buttons_r[4]->connect("Pressed", change_round_5, &selected_round);
 
 	tgui::Button::Ptr buttons_m[5]; // массив кнопок миссий. Для того, чтобы проходить по циклу
 	buttons_m[0] = gui.get<tgui::Button>("button_m_1");
@@ -214,24 +165,17 @@ int main()
 	////////MENU///////////
 	// Выбор интерфейса от игрока зависит от кнопки в меню. Зададим по менюшке для каждого игрока. Менюшки будут лежать в массиве менюшек
 	tgui::MenuBar::Ptr menu = tgui::MenuBar::create();
-	gui.add(menu); //Меню с выбором игроков
+	gui.add(menu);
 
 	for (auto p : gm->GetGameAgents()->GetAgents())
 	{
 		menu->addMenu(p->GetPlayer().GetFirstName());
 		menu->addMenuItem(p->GetPlayer().GetFirstName());//Добавляем менюшку с именами игроков. На саму менюшку кликать нельзя, поэтому добавляем подменю
+		menu->connectMenuItem(p->GetPlayer().GetFirstName(), p->GetPlayer().GetFirstName(), change_player, &agent_choosen, p);
 	}
-	menu->addMenu("    NEXT_TURN    "); 
-	menu->addMenuItem("    NEXT_TURN    ");
 
-	menu->connect("MenuItemClicked", change_player, &agent_choosen, &gm); // Команда, чтобы поменять выбранного игрока по нажатию
 	//Далее знаем, от чьего лица сейчас показывается экран. Имя выбранного игрока должно показываться сверху
-
-	
-
-	////////////////////
-
-
+	////////////////////////
 
 	//// Добавим кнопки с именами игроков ///////
 	std::vector<tgui::CheckBox::Ptr> player_buttons; //Вектор всех кнопок
@@ -241,6 +185,8 @@ int main()
 	{
 		tgui::CheckBox::Ptr chbx = tgui::CheckBox::create();
 		chbx->setSize(21, 21);
+		chbx->connect("checked", checkPlayer, &(gm), p->GetPlayer().GetNickName());
+		chbx->connect("unchecked", uncheckPlayer, &(gm), p->GetPlayer().GetNickName());
 		player_buttons.push_back(chbx);
 		window_missions_panel->add(player_buttons[player_buttons.size() - 1]); //Добавляем всё во внутренне окно
 
@@ -267,10 +213,6 @@ int main()
 		k++;
 	}
 
-	//Начало игрового алгоритма
-	gm->GetGameRounds()[0]->SetIsActiveRound(true);
-	gm->GetGameRounds()[0]->SetCurrentPropMission(gm->GetGameRounds()[0]->GetPropMission()[0]);
-
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -278,70 +220,60 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-
 			gui.handleEvent(event);
 		}
+
+		////Основной алгоритм////
+
 		////Интерфейс////
 		if (agent_choosen->GetIsLider()) //Выбранному в интерфейсе Лидеру корону
-		{
 			label_curr_player->setText(agent_choosen->GetPlayer().GetFirstName() + "[^^^]");
-		}
 		else
 			label_curr_player->setText(agent_choosen->GetPlayer().GetFirstName());
 		////////////////
 
 		////Основной алгоритм////
-		
-		for (int k = 0; k < 5; k++) //Блокируем кнопки непроисходивших раундов
+		for (int i = 0; i < gm->GetGameRounds().size(); i++) //Блокируем кнопки неактивных раундов
 		{
-			if (k>active_round)
-				buttons_r[k]->setEnabled(false);
+			for (int j = 0; j < gm->GetGameRounds()[i]->GetPropMission().size(); j++) //Блокируем кнопки неактивных миссий
+			{
+				buttons_m[j]->setEnabled(gm->GetGameRounds()[i]->GetPropMission()[j]->GetIsActiveMission());
+			}
+			buttons_r[i]->setEnabled(gm->GetGameRounds()[i]->GetIsActiveRound());
 		}
 
-		for (int k = 0; k < 5; k++) //Блокируем кнопки непроисходивших раундов
+		for (int i = 0; i < player_buttons.size(); i++)
 		{
-			if (k > prop_mission)
-				buttons_m[k]->setEnabled(false);
+			player_buttons[i]->setEnabled(agent_choosen->GetIsLider());
+			//sf::String nickN = label_player_name_vector[i]->getText();
+			//for (int k = 0; k < gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
+			//{
+			//	AgentInMission aim = gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
+			//	if(nickN == aim.GetAgent().GetPlayer().GetNickName())
+			//		player_buttons[i]->setChecked(aim.GetIsSelected());
+			//}
 		}
 
-		if (!agent_choosen->GetIsLider()) //Отключаем кнопки голосования за игроков для всех, кроме лидера
+		if (gm->GetCurrentGameRound()->GetCommandSize() == gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->NumberofSelected())
 		{
-			for (auto b : player_buttons)
-				b->setEnabled(false);
+			for (int i = 0; i < player_buttons.size(); i++)
+			{
+				if(!player_buttons[i]->isChecked())
+					player_buttons[i]->setEnabled(false);
+			}
+		}
+
+
+		if (gm->GetCurrentGameRound()->GetCommandSize() == gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->NumberofSelected())
+		{
+			rad_but_accept->setEnabled(true);
+			rad_but_refuse->setEnabled(true);
 		}
 		else
 		{
-			for (auto b : player_buttons)
-				b->setEnabled(true);
+			rad_but_accept->setEnabled(false);
+			rad_but_refuse->setEnabled(false);
 		}
-
-
-
-
-		///////Условие доступности кнопок раунда////////
-		//1 раунд
-		//MissionResult result = gm->GetGameRounds()[0]->GetResult();
-		//if (result == UnknownRes)
-		//{
-		//	button_r_1->setEnabled(false);
-		//}
-		//if (result != UnknownRes)
-		//{
-		//	*/button_r_1->setEnabled(true);
-		//}
-		//
-		////2 раунд
-		//result = gm->GetGameRounds()[1]->GetResult();
-		//if (result == UnknownRes)
-		//{
-		//	button_r_2->setEnabled(false);
-		//}
-		//if (result != UnknownRes)
-		//{
-		//	button_r_2->setEnabled(true);
-		//}
-		//
-
 
 
 		window.clear(sf::Color(230, 230, 230));
