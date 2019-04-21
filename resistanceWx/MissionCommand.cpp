@@ -30,6 +30,19 @@ vector<AgentInMission*> MissionCommand::GetCommand()
 	return _command;
 }
 
+bool MissionCommand::CheckAgentforSelect(Agent ag)
+{
+	vector<AgentInMission*> vc = GetCommand();
+	for (int i = 0; i < vc.size(); i++)
+	{
+		if ((ag.GetPlayer().GetID() == vc[i]->GetAgent().GetPlayer().GetID()) && (vc[i]->GetIsSelected()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 int MissionCommand::NumberofSelected()
 {
 	int cnt = 0;

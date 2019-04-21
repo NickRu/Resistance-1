@@ -19,6 +19,8 @@ public:
 
 	vector<AgentInMission*> GetCommand();
 
+	bool CheckAgentforSelect(Agent ag);
+
 	int NumberofSelected();
 };
 

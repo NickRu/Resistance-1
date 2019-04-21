@@ -13,31 +13,26 @@
 #include "Player.h"
 #include <iostream>
 
-void change_player(Agent** agent_choosen, Agent* i) // Команда, чтобы поменять выбранного игрока по нажатию
+void change_player(Agent** agent_choosen, Agent* i, tgui::Gui* gui) // Команда, чтобы поменять выбранного игрока по нажатию
 {
 	(*agent_choosen) = i;
+
+	(*gui).get<tgui::RadioButton>("rad_but_accept")->setChecked(false);
+	(*gui).get<tgui::RadioButton>("rad_but_refuse")->setChecked(false);
+	(*gui).get<tgui::RadioButton>("rad_but_unknown_create")->setChecked(false);
+	(*gui).get<tgui::RadioButton>("rad_but_help")->setChecked(false);
+	(*gui).get<tgui::RadioButton>("rad_but_hinder")->setChecked(false);
+	(*gui).get<tgui::RadioButton>("rad_but_unknown_exec")->setChecked(false);
 }
 
 void create_mission(Game** gm, Agent** agent_choosen, bool b) // Команда, чтобы поменять выбранного игрока по нажатию
 {
 	(*gm)->GetCurrentGameRound()->GetCurrentPropMission()->CreationVote(b, ** agent_choosen);
-	//for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
-	//{
-	//	AgentInMission* aim = ((*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k]);
-	//	if (nickN == aim->GetAgent().GetPlayer().GetNickName())
-	//		aim->SetIsSelected(true);
-	//}
 }
 
 void exec_mission(Game** gm, Agent** agent_choosen, bool b) // Команда, чтобы поменять выбранного игрока по нажатию
 {
 	(*gm)->GetCurrentGameRound()->GetCurrentPropMission()->ExecutionVote(b, ** agent_choosen);
-	//for (int k = 0; k < (*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
-	//{
-	//	AgentInMission* aim = ((*gm)->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k]);
-	//	if (nickN == aim->GetAgent().GetPlayer().GetNickName())
-	//		aim->SetIsSelected(true);
-	//}
 }
 
 void checkPlayer(Game** gm, std::string nickN) // Команда, чтобы поменять выбранного игрока по нажатию
@@ -98,10 +93,11 @@ int main()
 	int age3 = 15;
 	Player* pl3 = new Player(first3, sec3, code3, rate3, age3);
 	gm->GetGameAgents()->RegistryAgent(pl3);
-	if (!gm->CanStartGame())
-		cout << "Игроков недостаточно\n";
-	else
-		cout << "Игроков достаточно\n";
+
+	//if (!gm->CanStartGame())
+	//	cout << "Игроков недостаточно\n";
+	//else
+	//	cout << "Игроков достаточно\n";
 
 	char first4[] = "Anastasia";
 	char sec4[] = "Ф";
@@ -111,29 +107,29 @@ int main()
 	Player* pl4 = new Player(first4, sec4, code4, rate4, age4);
 	gm->GetGameAgents()->RegistryAgent(pl4);
 
-	char first5[] = "Rita";
-	char sec5[] = "Ф";
-	char code5[] = "Ginny";
-	int rate5 = 100;
-	int age5 = 18;
-	Player* pl5 = new Player(first5, sec5, code5, rate5, age5);
-	gm->GetGameAgents()->RegistryAgent(pl5);
+	//char first5[] = "Rita";
+	//char sec5[] = "Ф";
+	//char code5[] = "Ginny";
+	//int rate5 = 100;
+	//int age5 = 18;
+	//Player* pl5 = new Player(first5, sec5, code5, rate5, age5);
+	//gm->GetGameAgents()->RegistryAgent(pl5);
 
-	char first6[] = "Slava";
-	char sec6[] = "Ф";
-	char code6[] = "Peter";
-	int rate6 = 100;
-	int age6 = 18;
-	Player* pl6 = new Player(first6, sec6, code6, rate6, age6);
-	gm->GetGameAgents()->RegistryAgent(pl6);
+	//char first6[] = "Slava";
+	//char sec6[] = "Ф";
+	//char code6[] = "Peter";
+	//int rate6 = 100;
+	//int age6 = 18;
+	//Player* pl6 = new Player(first6, sec6, code6, rate6, age6);
+	//gm->GetGameAgents()->RegistryAgent(pl6);
 
-	char first7[] = "Nastya";
-	char sec7[] = "Ф";
-	char code7[] = "Lisa";
-	int rate7 = 100;
-	int age7 = 18;
-	Player* pl7 = new Player(first7, sec7, code7, rate7, age7);
-	gm->GetGameAgents()->RegistryAgent(pl7);
+	//char first7[] = "Nastya";
+	//char sec7[] = "Ф";
+	//char code7[] = "Lisa";
+	//int rate7 = 100;
+	//int age7 = 18;
+	//Player* pl7 = new Player(first7, sec7, code7, rate7, age7);
+	//gm->GetGameAgents()->RegistryAgent(pl7);
 
 	gm->ExecuteStart();
 	sf::RenderWindow window{ {800, 600}, "Window" };
@@ -203,12 +199,12 @@ int main()
 	// Выбор интерфейса от игрока зависит от кнопки в меню. Зададим по менюшке для каждого игрока. Менюшки будут лежать в массиве менюшек
 	tgui::MenuBar::Ptr menu = tgui::MenuBar::create();
 	gui.add(menu);
-
+	menu->addMenu("Players");
+	
 	for (auto p : gm->GetGameAgents()->GetAgents())
 	{
-		menu->addMenu(p->GetPlayer().GetFirstName());
 		menu->addMenuItem(p->GetPlayer().GetFirstName());//Добавляем менюшку с именами игроков. На саму менюшку кликать нельзя, поэтому добавляем подменю
-		menu->connectMenuItem(p->GetPlayer().GetFirstName(), p->GetPlayer().GetFirstName(), change_player, &agent_choosen, p);
+		menu->connectMenuItem("Players", p->GetPlayer().GetFirstName(), change_player, &agent_choosen, p, &gui);
 	}
 
 	//Далее знаем, от чьего лица сейчас показывается экран. Имя выбранного игрока должно показываться сверху
@@ -269,36 +265,103 @@ int main()
 			label_curr_player->setText(agent_choosen->GetPlayer().GetFirstName());
 		////////////////
 
+
 		////Основной алгоритм////
 		for (int i = 0; i < gm->GetGameRounds().size(); i++) //Блокируем кнопки неактивных раундов
 		{
-			for (int j = 0; j < gm->GetGameRounds()[i]->GetPropMission().size(); j++) //Блокируем кнопки неактивных миссий
+			if (gm->GetGameRounds()[i]->GetIsActiveRound())
 			{
-				buttons_m[j]->setEnabled(gm->GetGameRounds()[i]->GetPropMission()[j]->GetIsActiveMission());
+				for (int j = 0; j < gm->GetGameRounds()[i]->GetPropMission().size(); j++) //Блокируем кнопки неактивных миссий
+				{
+
+					switch (gm->GetGameRounds()[i]->GetPropMission()[j]->GetMissionResult())
+					{
+						case MissionResult::UnknownRes:
+							buttons_m[j]->setText("Mission " + std::to_string(j + 1) + " unk");
+							buttons_m[j]->getRenderer()->setBackgroundColor(sf::Color(230, 230, 230));
+							break;
+						case MissionResult::VoteUp:
+							buttons_m[j]->setText("Mission " + std::to_string(j + 1) + " up");
+							buttons_m[j]->getRenderer()->setBackgroundColor(sf::Color::Cyan);
+							break;
+						case MissionResult::VoteDown:
+							buttons_m[j]->setText("Mission " + std::to_string(j + 1) + " dw");
+							buttons_m[j]->getRenderer()->setBackgroundColor(sf::Color::Magenta);
+							break;
+						case MissionResult::Executed:
+							buttons_m[j]->setText("Mission " + std::to_string(j + 1) + " ex");
+							buttons_m[j]->getRenderer()->setBackgroundColor(sf::Color::Blue);
+							break;
+						case MissionResult::Failed:
+							buttons_m[j]->setText("Mission " + std::to_string(j + 1) + " fl");
+							buttons_m[j]->getRenderer()->setBackgroundColor(sf::Color::Red);
+							break;
+						default:
+							break;
+					}
+
+				}
 			}
-			buttons_r[i]->setEnabled(gm->GetGameRounds()[i]->GetIsActiveRound());
+
+			switch (gm->GetGameRounds()[i]->GetResult())
+			{
+			case MissionResult::UnknownRes:
+				buttons_r[i]->setText("Round " + std::to_string(i + 1) + " unk");
+				buttons_r[i]->getRenderer()->setBackgroundColor(sf::Color(230, 230, 230));
+				break;
+			case MissionResult::VoteUp:
+				buttons_r[i]->setText("Round " + std::to_string(i + 1) + " up");
+				buttons_r[i]->getRenderer()->setBackgroundColor(sf::Color::Cyan);
+				break;
+			case MissionResult::VoteDown:
+				buttons_r[i]->setText("Round " + std::to_string(i + 1) + " dw");
+				buttons_r[i]->getRenderer()->setBackgroundColor(sf::Color::Magenta);
+				break;
+			case MissionResult::Executed:
+				buttons_r[i]->setText("Round " + std::to_string(i + 1) + " ex");
+				buttons_r[i]->getRenderer()->setBackgroundColor(sf::Color::Blue);
+				break;
+			case MissionResult::Failed:
+				buttons_r[i]->setText("Round " + std::to_string(i + 1) + " fl");
+				buttons_r[i]->getRenderer()->setBackgroundColor(sf::Color::Red);
+				break;
+			default:
+				break;
+			}
+
 		}
 
-		for (int i = 0; i < player_buttons.size(); i++)
-		{
-			player_buttons[i]->setEnabled(agent_choosen->GetIsLider());
-			//sf::String nickN = label_player_name_vector[i]->getText();
-			//for (int k = 0; k < gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand().size(); k++) //Блокируем кнопки неактивных миссий
-			//{
-			//	AgentInMission aim = gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->GetCommand()[k];
-			//	if(nickN == aim.GetAgent().GetPlayer().GetNickName())
-			//		player_buttons[i]->setChecked(aim.GetIsSelected());
-			//}
-		}
-
-		if (gm->GetCurrentGameRound()->GetCommandSize() == gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->NumberofSelected())
+		if (agent_choosen->GetIsLider())
 		{
 			for (int i = 0; i < player_buttons.size(); i++)
 			{
-				if(!player_buttons[i]->isChecked())
-					player_buttons[i]->setEnabled(false);
+				player_buttons[i]->setEnabled(true);
+			}
+
+			if (gm->GetCurrentGameRound()->GetCommandSize() == gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->NumberofSelected())
+			{
+				for (int i = 0; i < player_buttons.size(); i++)
+				{
+					if (!player_buttons[i]->isChecked())
+						player_buttons[i]->setEnabled(false);
+				}
+			}
+			else if (gm->GetCurrentGameRound()->GetCommandSize() > gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->NumberofSelected())
+			{
+				for (int i = 0; i < player_buttons.size(); i++)
+				{
+					player_buttons[i]->setEnabled(true);
+				}
 			}
 		}
+		else
+		{
+			for (int i = 0; i < player_buttons.size(); i++)
+			{
+				player_buttons[i]->setEnabled(false);
+			}
+		}
+
 
 
 		if (gm->GetCurrentGameRound()->GetCommandSize() == gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->NumberofSelected())
@@ -314,15 +377,22 @@ int main()
 
 		if (gm->GetCurrentGameRound()->GetCurrentPropMission()->ResultofVotesforCreation() == VoteforCreation::Create)
 		{
-			rad_but_help->setEnabled(true);
-			rad_but_hinder->setEnabled(true);
+			if (gm->GetCurrentGameRound()->GetCurrentPropMission()->GetMissionCommand()->CheckAgentforSelect(*agent_choosen))
+			{
+				rad_but_help->setEnabled(true);
+				rad_but_hinder->setEnabled(true);
+			}
+			else
+			{
+				rad_but_help->setEnabled(false);
+				rad_but_hinder->setEnabled(false);
+			}
 		}
 		else
 		{
 			rad_but_help->setEnabled(false);
 			rad_but_hinder->setEnabled(false);
 		}
-
 
 		window.clear(sf::Color(230, 230, 230));
 		gui.draw(); // Draw all widgets

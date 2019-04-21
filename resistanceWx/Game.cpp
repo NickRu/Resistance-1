@@ -109,12 +109,6 @@ void Game::ExecuteStart()
 
 void Game::CheckRound()
 {
-	//GameRound gr = GameRounds.First(n = > n.IsActiveRound == true);
-	//int num = gr.RoundNumber;
-	//gr.IsActiveRound = false;
-	//this.CheckGame();
-	//if (num < GameRounds.Count)
-	//	GameRounds[num].IsActiveRound = true;
 	int r = 0;
 	for (int i = 0; i < this->GetGameRounds().size(); i++)
 	{

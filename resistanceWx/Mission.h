@@ -17,8 +17,8 @@ private:
 	MissionCommand* _command;
 	MissionResult _result;
 	bool _isActive;
-	vector<AgentVoteFor<VoteforCreation>> _missionVotes;
-	vector<AgentVoteFor<VoteforExecution>> _missionExecuteVotes;
+	vector<AgentVoteFor<VoteforCreation>*> _missionVotes;
+	vector<AgentVoteFor<VoteforExecution>*> _missionExecuteVotes;
 public:
 	Mission(GameRound* round, Agent* lider, int missionNumber);
 	~Mission();
@@ -29,11 +29,11 @@ public:
 	Agent* GetLider();
 	void SetLider(Agent* lider);
 
-	vector<AgentVoteFor<VoteforCreation>> GetMissionVotes();
-	void SetMissionVotes(vector<AgentVoteFor<VoteforCreation>> missionVotes);
+	vector<AgentVoteFor<VoteforCreation>*> GetMissionVotes();
+	void SetMissionVotes(vector<AgentVoteFor<VoteforCreation>*> missionVotes);
 
-	vector<AgentVoteFor<VoteforExecution>> GetMissionExecuteVotes();
-	void SetMissionExecuteVotes(vector<AgentVoteFor<VoteforExecution>> missionExecuteVotes);
+	vector<AgentVoteFor<VoteforExecution>*> GetMissionExecuteVotes();
+	void SetMissionExecuteVotes(vector<AgentVoteFor<VoteforExecution>*> missionExecuteVotes);
 
 	MissionResult GetMissionResult();
 
@@ -49,5 +49,8 @@ public:
 
 	void CreationVote(bool forCreate, Agent ag);
 	void ExecutionVote(bool forExecute, Agent ag);
+
+	VoteforCreation GetAgentCreationVote(Agent ag);
+	VoteforExecution GetAgentExecutionVote(Agent ag);
 };
 

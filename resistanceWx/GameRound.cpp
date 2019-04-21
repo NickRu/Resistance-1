@@ -93,23 +93,32 @@ void GameRound::SetIsActiveRound(bool isActive)
 
 void GameRound::CheckProposalMission()
 {
-	if (GetResult() == (MissionResult::Executed | MissionResult::Failed))
+	if ((GetResult() == MissionResult::Executed) || (GetResult() == MissionResult::Failed))
 	{
-		SetIsActiveRound(false);
+		Agent * ld = FindNextLider();
 		GetGame()->CheckRound();
+		GetGame()->GetCurrentGameRound()->SetCurrentLider(ld);
 	}
 	if (GetResult() == MissionResult::VoteDown)
 	{
-		CreateNewProposalMission();
+		int missionNumber = _currentPropMission->GetMissionNumber();
+		if (missionNumber == GetPropMission().size())
+			throw 1;
+		Agent * ld = FindNextLider();
+		SetCurrentPropMission(GetPropMission()[missionNumber]);
+		SetCurrentLider(ld);
 	}
 }
 
-void GameRound::CreateNewProposalMission()
+void GameRound::SetCurrentLider(Agent* lider)
 {
-	int missionNumber = _currentPropMission->GetMissionNumber();
-	if (missionNumber == GetPropMission().size())
-		throw 1;
+	GetCurrentPropMission()->SetLider(lider);
+	GetCurrentPropMission()->GetLider()->SetIsLider(true);
+	GetCurrentPropMission()->SetIsActiveMission(true);
+}
 
+Agent * GameRound::FindNextLider()
+{
 	int LiderId = _currentPropMission->GetLider()->GetOrderNumber() + 1;
 	GetCurrentPropMission()->GetLider()->SetIsLider(false);
 	GetCurrentPropMission()->SetIsActiveMission(false);
@@ -127,14 +136,5 @@ void GameRound::CreateNewProposalMission()
 			lider = GetGame()->GetGameAgents()->GetAgents()[i];
 		}
 	}
-
-	SetCurrentPropMission(GetPropMission()[missionNumber]);
-	GetCurrentPropMission()->SetLider(lider);
-	GetCurrentPropMission()->GetLider()->SetIsLider(true);
-	GetCurrentPropMission()->SetIsActiveMission(true);
-
-
-	//_currentPropMission->SetIsActiveMission(false);
-	//_currentPropMission = new Mission(this, lider, missionNumber + 1);
-	//_propMissions.push_back(_currentPropMission);
+	return lider;
 }

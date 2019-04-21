@@ -5,6 +5,7 @@ using namespace std;
 
 class Game; //Forward Declare
 class Mission; //Forward Declare
+class Agent; //Forward Declare
 
 class GameRound
 {
@@ -38,6 +39,9 @@ public:
 	void SetIsActiveRound(bool isActive);
 
 	void CheckProposalMission();
-	void CreateNewProposalMission();
+	void SetCurrentLider(Agent* ld);
+
+	Agent* FindNextLider();
+
 };
 
