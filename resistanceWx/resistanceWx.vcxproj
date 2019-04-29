@@ -135,8 +135,10 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="AgentInMission.cpp" />
     <ClCompile Include="AgentVoteFor.cpp" />
+    <ClCompile Include="ButtonManage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameAgents.cpp" />
+    <ClCompile Include="GameFiller.cpp" />
     <ClCompile Include="GameRound.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -154,8 +156,10 @@
     <ClInclude Include="AgentInMission.h" />
     <ClInclude Include="AgentVoteFor.h" />
     <ClInclude Include="AllEnum.h" />
+    <ClInclude Include="ButtonManage.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameAgents.h" />
+    <ClInclude Include="GameFiller.h" />
     <ClInclude Include="GameRound.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Mission.h" />

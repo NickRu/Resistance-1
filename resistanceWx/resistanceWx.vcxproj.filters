@@ -54,6 +54,12 @@
     <ClCompile Include="Resistance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameFiller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonManage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Interface.txt" />
@@ -96,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFiller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonManage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
